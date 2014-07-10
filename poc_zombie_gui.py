@@ -18,6 +18,7 @@ HUMAN = "human"
 ZOMBIE = "zombie"
 CELL_COLORS = {EMPTY: "White", FULL: "Black", HAS_ZOMBIE: "Red", HAS_HUMAN: "Green", HAS_ZOMBIE|HAS_HUMAN: "Purple"}
 
+
 # GUI constants
 CELL_SIZE = 10
 LABEL_STRING = "Mouse click: Add "
