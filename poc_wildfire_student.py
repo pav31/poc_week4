@@ -7,6 +7,7 @@ import poc_grid
 import poc_queue
 import poc_wildfire_gui
 
+
 # constants
 EMPTY = 0
 FULL = 1

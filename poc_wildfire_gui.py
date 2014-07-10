@@ -4,7 +4,11 @@ Click on the canvas to add orange cells to boundary of the fire (BFS queue)
 Click step to advance search, orange cells are on fire (visited by BFS search)
 """
 
-import simpleguitk as simplegui
+try:
+    import simplegui
+except ImportError:
+    import SimpleGUICS2Pygame.simpleguics2pygame as simplegui
+
 # Global constants
 CELL_SIZE = 10
 EMPTY = 0

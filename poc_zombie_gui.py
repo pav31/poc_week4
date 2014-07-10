@@ -4,7 +4,10 @@ Click "Mouse click" button to toggle items added by mouse clicks
 Zombies have four way movement, humans have eight way movement
 """
 
-import simpleguitk as simplegui
+try:
+    import simplegui
+except ImportError:
+    import SimpleGUICS2Pygame.simpleguics2pygame as simplegui
 
 # Global constants
 EMPTY = 0

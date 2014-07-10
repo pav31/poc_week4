@@ -6,6 +6,9 @@ import random
 import poc_grid
 import poc_queue
 import poc_zombie_gui
+import poc_simpletest
+import test
+
 
 # global constants
 EMPTY = 0 
@@ -47,45 +50,53 @@ class Zombie(poc_grid.Grid):
         Set cells in obstacle grid to be empty
         Reset zombie and human lists to be empty
         """
-        pass
-        
+        poc_grid.Grid.clear(self)
+        self._zombie_list = []
+        self._human_list = []
+
     def add_zombie(self, row, col):
         """
         Add zombie to the zombie list
         """
-        pass
+        # self._cells[row][col] = FULL
+        location = (row, col)
+        self._zombie_list.append(location)
                 
     def num_zombies(self):
         """
         Return number of zombies
         """
-        return 0       
+        return len(self._zombie_list)
+
           
     def zombies(self):
         """
         Generator that yields the zombies in the order they were
         added.
         """
-        # replace with an actual generator
+        for zombie in self._zombie_list:
+            yield zombie
         return
 
     def add_human(self, row, col):
         """
         Add human to the human list
         """
-        pass
+        location = (row, col)
+        self._human_list.append(location)
         
     def num_humans(self):
         """
         Return number of humans
         """
-        return 0
+        return len(self._human_list)
     
     def humans(self):
         """
         Generator that yields the humans in the order they were added.
         """
-        # replace with an actual generator
+        for zombie in self._human_list:
+            yield zombie
         return
         
     def compute_distance_field(self, entity_type):
@@ -114,3 +125,20 @@ class Zombie(poc_grid.Grid):
 # before this will work without errors
 
 # poc_zombie_gui.run_gui(Zombie(30, 40))
+
+grid = Zombie(10, 12, None, [(1, 2), (4, 8)], [(3, 4), (5, 7)])
+grid.add_zombie(1, 3)
+
+print grid
+print 'zombie_list', grid._zombie_list
+print 'num_zombies', grid.num_zombies()
+
+
+grid.clear()
+print grid
+print 'zombie_list', grid._zombie_list
+print 'num_zombies', grid.num_zombies()
+
+test.phase1_test(Zombie)
+# test.phase2_test(Zombie)
+# test.phase3_test(Zombie)
