@@ -26,7 +26,7 @@ class Zombie(poc_grid.Grid):
     obstacles
     """
 
-    def __init__(self, grid_height, grid_width, obstacle_list = None, 
+    def __init__(self, grid_height, grid_width, obstacle_list = None,
                  zombie_list = None, human_list = None):
         """
         Create a simulation of given size with given obstacles,
@@ -41,10 +41,10 @@ class Zombie(poc_grid.Grid):
         else:
             self._zombie_list = []
         if human_list != None:
-            self._human_list = list(human_list)  
+            self._human_list = list(human_list)
         else:
             self._human_list = []
-        
+
     def clear(self):
         """
         Set cells in obstacle grid to be empty
@@ -58,17 +58,16 @@ class Zombie(poc_grid.Grid):
         """
         Add zombie to the zombie list
         """
-        # self._cells[row][col] = FULL
         location = (row, col)
         self._zombie_list.append(location)
-                
+
     def num_zombies(self):
         """
         Return number of zombies
         """
         return len(self._zombie_list)
 
-          
+
     def zombies(self):
         """
         Generator that yields the zombies in the order they were
@@ -84,36 +83,60 @@ class Zombie(poc_grid.Grid):
         """
         location = (row, col)
         self._human_list.append(location)
-        
+
     def num_humans(self):
         """
         Return number of humans
         """
         return len(self._human_list)
-    
+
     def humans(self):
         """
         Generator that yields the humans in the order they were added.
         """
-        for zombie in self._human_list:
-            yield zombie
+        for human in self._human_list:
+            yield human
         return
-        
+
+
+        #
+        # cell = self._fire_boundary.dequeue()
+        # neighbors = self.four_neighbors(cell[0], cell[1])
+        # #neighbors = self.eight_neighbors(cell[0], cell[1])
+        # for neighbor in neighbors:
+        #     if self.is_empty(neighbor[0], neighbor[1]):
+        #         self.set_full(neighbor[0], neighbor[1])
+        #         self._fire_boundary.enqueue(neighbor)
+        #
+
     def compute_distance_field(self, entity_type):
         """
         Function computes a 2D distance field
         Distance at member of entity_queue is zero
         Shortest paths avoid obstacles and use distance_type distances
         """
+        ##########
+        # WORKING ON THIS ONE
+        # return [self.four_neighbors(entity[0], entity[1]) for entity in entity_type]
+
+        # pass
+        # cell = self._fire_boundary.dequeue()
+        # distances = poc_grid.Grid.four_neighbors(cell[0], cell[1])
+        # #neighbors = self.eight_neighbors(cell[0], cell[1])
+        # for distance in distances:
+        #     if self.is_empty(distance[0], distance[1]):
+        #         self.set_full(distance[0], distance[1])
+        #         self._fire_boundary.enqueue(distance)
+        ###########
         pass
-    
+
     def move_humans(self, zombie_distance):
         """
         Function that moves humans away from zombies, diagonal moves
         are allowed
         """
         pass
-    
+
     def move_zombies(self, human_distance):
         """
         Function that moves zombies towards humans, no diagonal moves
@@ -133,11 +156,11 @@ print grid
 print 'zombie_list', grid._zombie_list
 print 'num_zombies', grid.num_zombies()
 
+print '4 neighbors', [grid.four_neighbors(zombie[0], zombie[1]) for zombie in grid.zombies()]
+# print '4 neighbors', grid.compute_distance_field(grid.zombies)
+print
+print
 
-grid.clear()
-print grid
-print 'zombie_list', grid._zombie_list
-print 'num_zombies', grid.num_zombies()
 
 test.phase1_test(Zombie)
 # test.phase2_test(Zombie)
