@@ -4,7 +4,7 @@ Click "Mouse click" button to toggle items added by mouse clicks
 Zombies have four way movement, humans have eight way movement
 """
 
-import simplegui
+import simpleguitk as simplegui
 
 # Global constants
 EMPTY = 0
