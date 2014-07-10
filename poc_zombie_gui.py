@@ -22,7 +22,6 @@ CELL_COLORS = {EMPTY: "White", FULL: "Black", HAS_ZOMBIE: "Red", HAS_HUMAN: "Gre
 CELL_SIZE = 10
 LABEL_STRING = "Mouse click: Add "
 
-
 class ZombieGUI:
     """
     Container for interactive content
