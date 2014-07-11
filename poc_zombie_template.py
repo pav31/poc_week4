@@ -97,7 +97,7 @@ class Zombie(poc_grid.Grid):
             yield human
 
 
-    def compute_distance_field(self, entity_type = None):
+    def compute_distance_field(self, entity_type):
         """
         Function computes a 2D distance field
         Distance at member of entity_queue is zero
@@ -113,25 +113,21 @@ class Zombie(poc_grid.Grid):
 
         distance_field = [[max_distance for dummy_col in range(width)]
                       for dummy_row in range(height)]
-        #distance_field = list(distance_field)
-        boundary = [item for item in self._zombie_list]
+
+        boundary = poc_queue.Queue()
+        [boundary.enqueue(entity) for entity in entity_type]
+
+        for entity in boundary:
+            boundary.enqueue(entity)
+        # boundary = [item for item in self._zombie_list]
 
         for cell in boundary:
             visited.set_full(cell[0], cell[1])
             distance_field[cell[0]][cell[1]] = 0
 
-        for i in distance_field:
-            print(i)
-
-        print(type(visited), type(distance_field))
         print 'distance_field', distance_field[1][1]
         print 'boundary', boundary
         print visited
-
-
-
-        # visited = poc_grid.Grid(height, width)
-        # return visited
 
 
         ##########
@@ -183,7 +179,9 @@ print "queue", queue
 print '4 neighbors', [grid.four_neighbors(zombie[0], zombie[1]) for zombie in grid.zombies()]
 # print '4 neighbors', grid.compute_distance_field(grid.zombies)
 print
-print "visited", grid.compute_distance_field()
+zombies = grid._zombie_list
+print "zombies", zombies
+print "compute_distance_field", grid.compute_distance_field(zombies)
 
 # test.phase1_test(Zombie)
 # test.phase2_test(Zombie)
