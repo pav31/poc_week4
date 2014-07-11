@@ -110,7 +110,6 @@ class Zombie(poc_grid.Grid):
         visited = poc_grid.Grid(height, width)
         visited.clear()
 
-
         distance_field = [[max_distance for dummy_col in range(width)]
                       for dummy_row in range(height)]
 
