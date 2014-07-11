@@ -96,22 +96,26 @@ class Zombie(poc_grid.Grid):
         for human in self._human_list:
             yield human
 
-        #
-        # cell = self._fire_boundary.dequeue()
-        # neighbors = self.four_neighbors(cell[0], cell[1])
-        # #neighbors = self.eight_neighbors(cell[0], cell[1])
-        # for neighbor in neighbors:
-        #     if self.is_empty(neighbor[0], neighbor[1]):
-        #         self.set_full(neighbor[0], neighbor[1])
-        #         self._fire_boundary.enqueue(neighbor)
-        #
 
-    def compute_distance_field(self, entity_type):
+    def compute_distance_field(self, entity_type = None):
         """
         Function computes a 2D distance field
         Distance at member of entity_queue is zero
         Shortest paths avoid obstacles and use distance_type distances
         """
+        height = self.get_grid_height()
+        width = self.get_grid_width()
+
+        visited = poc_grid.Grid(height, width)
+        visited.clear()
+
+        distance_field = poc_grid.Grid(height, width)
+
+        return visited
+        # visited = poc_grid.Grid(height, width)
+        # return visited
+
+
         ##########
         # WORKING ON THIS ONE
         # return [self.four_neighbors(entity[0], entity[1]) for entity in entity_type]
@@ -146,18 +150,22 @@ class Zombie(poc_grid.Grid):
 
 # poc_zombie_gui.run_gui(Zombie(30, 40))
 
-grid = Zombie(10, 12, None, [(1, 2), (4, 8)], [(3, 4), (5, 7)])
+grid = Zombie(10, 12, [(1, 0), (3, 5)], [(1, 2), (4, 8)], [(3, 4), (5, 7)])
 grid.add_zombie(1, 3)
 
 print grid
 print 'zombie_list', grid._zombie_list
 print 'num_zombies', grid.num_zombies()
 
+queue = poc_queue.Queue()
+for zombie in grid._zombie_list:
+    queue.enqueue(zombie)
+print "queue", queue
+
 print '4 neighbors', [grid.four_neighbors(zombie[0], zombie[1]) for zombie in grid.zombies()]
 # print '4 neighbors', grid.compute_distance_field(grid.zombies)
 print
-print
-
+print "visited", grid.compute_distance_field()
 
 test.phase1_test(Zombie)
 # test.phase2_test(Zombie)
