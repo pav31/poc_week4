@@ -119,6 +119,7 @@ class Zombie(poc_grid.Grid):
 
         for cell in boundary:
             visited.set_full(cell[0], cell[1])
+
         for cell in boundary:
             distance_field[cell[0]][cell[1]] = 0
 
