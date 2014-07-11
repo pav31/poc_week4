@@ -6,7 +6,7 @@ import random
 import poc_grid
 import poc_queue
 import poc_zombie_gui
-import poc_simpletest
+# import poc_simpletest
 import test
 
 
@@ -106,14 +106,17 @@ class Zombie(poc_grid.Grid):
         height = self.get_grid_height()
         width = self.get_grid_width()
         max_distance = height * width
-
+        print 'dada', max_distance
         visited = poc_grid.Grid(height, width)
         # visited.clear()
 
-        distance_field = poc_grid.Grid(height, width)
-        for dummy_idx in distance_field:
+        # distance_field = poc_grid.Grid(height, width)
+        distance_field = [[max_distance for dummy_col in range(width)]
+                       for dummy_row in range(height)]
+        for i in distance_field:
+            print(i)
 
-        return distance_field[1]
+
         # visited = poc_grid.Grid(height, width)
         # return visited
 
@@ -131,7 +134,7 @@ class Zombie(poc_grid.Grid):
         #         self.set_full(distance[0], distance[1])
         #         self._fire_boundary.enqueue(distance)
         ###########
-        pass
+
 
     def move_humans(self, zombie_distance):
         """
@@ -169,6 +172,6 @@ print '4 neighbors', [grid.four_neighbors(zombie[0], zombie[1]) for zombie in gr
 print
 print "visited", grid.compute_distance_field()
 
-test.phase1_test(Zombie)
+# test.phase1_test(Zombie)
 # test.phase2_test(Zombie)
 # test.phase3_test(Zombie)
