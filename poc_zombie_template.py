@@ -103,9 +103,13 @@ class Zombie(poc_grid.Grid):
         Distance at member of entity_queue is zero
         Shortest paths avoid obstacles and use distance_type distances
         """
-        visited = poc_grid.Grid(self.get_grid_height(), self.get_grid_width())
+        height = self.get_grid_height()
+        width = self.get_grid_width()
+        visited = poc_grid.Grid(height, width)
+        distance_field = poc_grid.Grid(height, width)
+
         return visited
-        # visited = poc_grid.Grid(grid_height, grid_width)
+        # visited = poc_grid.Grid(height, width)
         # return visited
 
 
