@@ -119,6 +119,8 @@ class Zombie(poc_grid.Grid):
         for i in boundary:
             visited.set_full(i[0], i[1])
 
+        for j in distance_field:
+            visited.set_empty(j[0], j[1])
         print 'sadasdasdasd', boundary
         print 'dddddddddd', visited
 
