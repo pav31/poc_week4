@@ -115,11 +115,8 @@ class Zombie(poc_grid.Grid):
                       for dummy_row in range(height)]
 
         boundary = poc_queue.Queue()
-        [boundary.enqueue(entity) for entity in entity_type]
-
-        for entity in boundary:
+        for entity in entity_type:
             boundary.enqueue(entity)
-        # boundary = [item for item in self._zombie_list]
 
         for cell in boundary:
             visited.set_full(cell[0], cell[1])
