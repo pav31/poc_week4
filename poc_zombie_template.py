@@ -111,7 +111,8 @@ class Zombie(poc_grid.Grid):
         # visited.clear()
 
         distance_field = poc_grid.Grid(height, width)
-        for dummy_idx
+        for dummy_idx in distance_field:
+
         return distance_field[1]
         # visited = poc_grid.Grid(height, width)
         # return visited
