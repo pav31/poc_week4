@@ -115,7 +115,12 @@ class Zombie(poc_grid.Grid):
                        for dummy_row in range(height)]
         for i in distance_field:
             print(i)
+        boundary = [item for item in self._zombie_list]
+        for i in boundary:
+            visited.set_full(i[0], i[1])
 
+        print 'sadasdasdasd', boundary
+        print visited
 
         # visited = poc_grid.Grid(height, width)
         # return visited
