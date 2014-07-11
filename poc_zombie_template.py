@@ -113,14 +113,15 @@ class Zombie(poc_grid.Grid):
         # distance_field = poc_grid.Grid(height, width)
         distance_field = [[max_distance for dummy_col in range(width)]
                        for dummy_row in range(height)]
+
+        boundary = [item for item in self._zombie_list]
+
+        for cell in boundary:
+            visited.set_full(cell[0], cell[1])
+            distance_field.set_empty(cell[0], cell[1])
+
         for i in distance_field:
             print(i)
-        boundary = [item for item in self._zombie_list]
-        for i in boundary:
-            visited.set_full(i[0], i[1])
-
-        for j in distance_field:
-            visited.set_empty(j[0], j[1])
         print 'sadasdasdasd', boundary
         print 'dddddddddd', visited
 
