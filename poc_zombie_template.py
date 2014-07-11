@@ -75,7 +75,6 @@ class Zombie(poc_grid.Grid):
         """
         for zombie in self._zombie_list:
             yield zombie
-        return
 
     def add_human(self, row, col):
         """
@@ -96,8 +95,6 @@ class Zombie(poc_grid.Grid):
         """
         for human in self._human_list:
             yield human
-        return
-
 
         #
         # cell = self._fire_boundary.dequeue()
