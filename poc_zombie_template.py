@@ -120,7 +120,9 @@ class Zombie(poc_grid.Grid):
             visited.set_full(i[0], i[1])
 
         print 'sadasdasdasd', boundary
-        print visited
+        print 'dddddddddd', visited
+
+
 
         # visited = poc_grid.Grid(height, width)
         # return visited
