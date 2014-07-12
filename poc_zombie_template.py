@@ -6,8 +6,8 @@ import random
 import poc_grid
 import poc_queue
 import poc_zombie_gui
-# import poc_simpletest
-import test
+import poc_simpletest
+# import test
 
 
 # global constants
@@ -105,40 +105,44 @@ class Zombie(poc_grid.Grid):
         """
         height = self.get_grid_height()
         width = self.get_grid_width()
-        max_distance = height * width
 
+
+        # Create a new grid of the same size as the obstacle grid
         visited = poc_grid.Grid(height, width)
         visited.clear()
 
+        # Create a 2D list of the same size as the grid and initialize its entries to be (heigth * width).
+        max_distance = height * width
         distance_field = [[max_distance for dummy_col in range(width)]
                       for dummy_row in range(height)]
 
+        # Create a queue that is a copy entity_type
         boundary = poc_queue.Queue()
         for entity in entity_type:
             boundary.enqueue(entity)
+
 
         for cell in boundary:
             visited.set_full(cell[0], cell[1])
             distance_field[cell[0]][cell[1]] = 0
 
-        print 'distance_field', distance_field[1][1]
-        print 'boundary', boundary
-        print visited
-
-
-        ##########
-        # WORKING ON THIS ONE
-        # return [self.four_neighbors(entity[0], entity[1]) for entity in entity_type]
-
-        # pass
-        # cell = self._fire_boundary.dequeue()
-        # distances = poc_grid.Grid.four_neighbors(cell[0], cell[1])
-        # #neighbors = self.eight_neighbors(cell[0], cell[1])
-        # for distance in distances:
-        #     if self.is_empty(distance[0], distance[1]):
-        #         self.set_full(distance[0], distance[1])
-        #         self._fire_boundary.enqueue(distance)
-        ###########
+        # Updates a 2D distance field computed using the four-way distance to entities of the given type
+        while len(boundary) != 0:
+            cell = boundary.dequeue()
+            neighbors = self.four_neighbors(cell[0], cell[1])
+            # #neighbors = self.eight_neighbors(cell[0], cell[1])
+            for neighbor in neighbors:
+                if self.is_empty(neighbor[0], neighbor[1]):
+                    distance_field[neighbor[0]][neighbor[1]] = distance_field[cell[0]][cell[1]] + 1
+                    self.set_full(neighbor[0], neighbor[1])
+                    boundary.enqueue(neighbor)
+        return distance_field
+        #
+        # print 'distance_field'
+        # for i in distance_field:
+        #     print i
+        # print 'boundary', boundary
+        # print visited
 
 
     def move_humans(self, zombie_distance):
@@ -159,26 +163,30 @@ class Zombie(poc_grid.Grid):
 # before this will work without errors
 
 # poc_zombie_gui.run_gui(Zombie(30, 40))
-
-grid = Zombie(10, 12, [(1, 0), (3, 5)], [(1, 2), (4, 8)], [(3, 4), (5, 7)])
-grid.add_zombie(1, 3)
-
-print grid
-print 'zombie_list', grid._zombie_list
-print 'num_zombies', grid.num_zombies()
-
-queue = poc_queue.Queue()
-for zombie in grid._zombie_list:
-    queue.enqueue(zombie)
-print "queue", queue
-
-print '4 neighbors', [grid.four_neighbors(zombie[0], zombie[1]) for zombie in grid.zombies()]
-# print '4 neighbors', grid.compute_distance_field(grid.zombies)
-print
-zombies = grid._zombie_list
-print "zombies", zombies
-print "compute_distance_field", grid.compute_distance_field(zombies)
-
-# test.phase1_test(Zombie)
-# test.phase2_test(Zombie)
+# height = 20
+# width = 30
+# obstacle_list = [(4, 15), (5, 15), (6, 15), (7, 15), (8, 15), (9, 15), (10, 15), (11, 15), (12, 15), (13, 15), (14, 15), (15, 10), (15, 11), (15, 12), (15, 13), (15, 14), (15, 15)]
+# grid = Zombie(height, width, obstacle_list, [(1, 2), (4, 8)], [(3, 4), (5, 7)])
+# grid.add_zombie(1, 3)
+#
+# print grid
+# print 'zombie_list', grid._zombie_list
+# print 'num_zombies', grid.num_zombies()
+#
+# queue = poc_queue.Queue()
+# for zombie in grid._zombie_list:
+#     queue.enqueue(zombie)
+# print "queue", queue
+#
+# print '4 neighbors', [grid.four_neighbors(zombie[0], zombie[1]) for zombie in grid.zombies()]
+# # print '4 neighbors', grid.compute_distance_field(grid.zombies)
+# print
+# zombies = grid._zombie_list
+# entity_list = [(7, 12), (12, 12)]
+# print "zombies", zombies
+# print "compute_distance_field", grid.compute_distance_field(entity_list)
+#
+test.phase1_test(Zombie)
+test.phase2_test(Zombie)
 # test.phase3_test(Zombie)
+#
