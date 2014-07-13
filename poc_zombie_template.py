@@ -7,7 +7,7 @@ import poc_grid
 import poc_queue
 import poc_zombie_gui
 import poc_simpletest
-# import test
+import test
 
 
 # global constants
@@ -106,7 +106,6 @@ class Zombie(poc_grid.Grid):
         height = self.get_grid_height()
         width = self.get_grid_width()
 
-
         # Create a new grid of the same size as the obstacle grid
         visited = poc_grid.Grid(height, width)
         visited.clear()
@@ -118,9 +117,16 @@ class Zombie(poc_grid.Grid):
 
         # Create a queue that is a copy entity_type
         boundary = poc_queue.Queue()
-        for entity in entity_type:
-            boundary.enqueue(entity)
-
+        # for entity in entity_type:
+        #     boundary.enqueue(entity)
+        # entity_type = self.zombies() if entity_type == ZOMBIE else self.humans()
+        if entity_type == ZOMBIE:
+            entity_type = self.zombies()
+        elif entity_type == HUMAN:
+           entity_type = self.humans()
+        else:
+            print "ERROR: Entity type is incorrect"
+        [boundary.enqueue(entity) for entity in entity_type]
 
         for cell in boundary:
             visited.set_full(cell[0], cell[1])
@@ -132,17 +138,12 @@ class Zombie(poc_grid.Grid):
             neighbors = self.four_neighbors(cell[0], cell[1])
             # #neighbors = self.eight_neighbors(cell[0], cell[1])
             for neighbor in neighbors:
-                if self.is_empty(neighbor[0], neighbor[1]):
+                if self.is_empty(neighbor[0], neighbor[1]) and \
+                        visited.is_empty(neighbor[0], neighbor[1]):
                     distance_field[neighbor[0]][neighbor[1]] = distance_field[cell[0]][cell[1]] + 1
-                    self.set_full(neighbor[0], neighbor[1])
+                    visited.set_full(neighbor[0], neighbor[1])
                     boundary.enqueue(neighbor)
         return distance_field
-        #
-        # print 'distance_field'
-        # for i in distance_field:
-        #     print i
-        # print 'boundary', boundary
-        # print visited
 
 
     def move_humans(self, zombie_distance):
@@ -163,11 +164,14 @@ class Zombie(poc_grid.Grid):
 # before this will work without errors
 
 # poc_zombie_gui.run_gui(Zombie(30, 40))
-# height = 20
-# width = 30
+height = 3
+width = 3
 # obstacle_list = [(4, 15), (5, 15), (6, 15), (7, 15), (8, 15), (9, 15), (10, 15), (11, 15), (12, 15), (13, 15), (14, 15), (15, 10), (15, 11), (15, 12), (15, 13), (15, 14), (15, 15)]
-# grid = Zombie(height, width, obstacle_list, [(1, 2), (4, 8)], [(3, 4), (5, 7)])
-# grid.add_zombie(1, 3)
+obstacle_list = []
+grid = Zombie(height, width, obstacle_list)
+grid.add_zombie(1, 1)
+grid.add_human(1, 1)
+
 #
 # print grid
 # print 'zombie_list', grid._zombie_list
@@ -182,10 +186,11 @@ class Zombie(poc_grid.Grid):
 # # print '4 neighbors', grid.compute_distance_field(grid.zombies)
 # print
 # zombies = grid._zombie_list
-# entity_list = [(7, 12), (12, 12)]
+entity_list = ZOMBIE
 # print "zombies", zombies
-# print "compute_distance_field", grid.compute_distance_field(entity_list)
+print "compute_distance_field", grid.compute_distance_field(entity_list)
 #
+
 test.phase1_test(Zombie)
 test.phase2_test(Zombie)
 # test.phase3_test(Zombie)
