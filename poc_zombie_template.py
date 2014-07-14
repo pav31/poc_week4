@@ -166,8 +166,6 @@ class Zombie(poc_grid.Grid):
         Function that moves humans away from zombies, diagonal moves
         are allowed
         """
-        # queue = poc_queue.Queue()
-        # [queue.enqueue(dummy_turn) for dummy_turn in self.num_humans()]
         temp_list = []
         for human in self._human_list:
             neighbors = self.eight_neighbors(human[0], human[1])
