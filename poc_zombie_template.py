@@ -6,8 +6,8 @@ import random
 import poc_grid
 import poc_queue
 import poc_zombie_gui
-import poc_simpletest
-import test
+# import poc_simpletest
+# import test
 
 
 # global constants
@@ -45,6 +45,7 @@ class Zombie(poc_grid.Grid):
         else:
             self._human_list = []
 
+
     def clear(self):
         """
         Set cells in obstacle grid to be empty
@@ -60,6 +61,14 @@ class Zombie(poc_grid.Grid):
         """
         location = (row, col)
         self._zombie_list.append(location)
+
+
+    def remove_zombie(self, row, col):
+        """
+        Remove zombie from the zombie list
+        """
+        location = (row, col)
+        self._zombie_list.remove(location)
 
     def num_zombies(self):
         """
@@ -82,6 +91,13 @@ class Zombie(poc_grid.Grid):
         """
         location = (row, col)
         self._human_list.append(location)
+
+    def remove_human(self, row, col):
+        """
+        Remove human from the human list
+        """
+        location = (row, col)
+        self._human_list.remove(location)
 
     def num_humans(self):
         """
@@ -117,16 +133,15 @@ class Zombie(poc_grid.Grid):
 
         # Create a queue that is a copy entity_type
         boundary = poc_queue.Queue()
-        # for entity in entity_type:
-        #     boundary.enqueue(entity)
-        # entity_type = self.zombies() if entity_type == ZOMBIE else self.humans()
+
         if entity_type == ZOMBIE:
             entity_type = self.zombies()
         elif entity_type == HUMAN:
-           entity_type = self.humans()
+            entity_type = self.humans()
         else:
             print "ERROR: Entity type is incorrect"
-        [boundary.enqueue(entity) for entity in entity_type]
+        for entity in entity_type:
+            boundary.enqueue(entity)
 
         for cell in boundary:
             visited.set_full(cell[0], cell[1])
@@ -151,47 +166,53 @@ class Zombie(poc_grid.Grid):
         Function that moves humans away from zombies, diagonal moves
         are allowed
         """
-        pass
+        # queue = poc_queue.Queue()
+        # [queue.enqueue(dummy_turn) for dummy_turn in self.num_humans()]
+        temp_list = []
+        for human in self._human_list:
+            neighbors = self.eight_neighbors(human[0], human[1])
+            neighbors.append(human) # Add human position to the list of neighbors
+
+            # Get maximal distance from zombies
+            max_distance = max(zombie_distance[dummy_row][dummy_col] for dummy_row, dummy_col in neighbors)
+            max_distances = []
+
+            for cell in neighbors:
+                if zombie_distance[cell[0]][cell[1]] == max_distance:
+                    max_distances.append(cell)
+
+            distance_choice = random.choice(max_distances)
+            temp_list.append(distance_choice)
+        self._human_list = temp_list
 
     def move_zombies(self, human_distance):
         """
         Function that moves zombies towards humans, no diagonal moves
         are allowed
         """
-        pass
+        temp_list = []
+        for zombie in self._zombie_list:
+            neighbors = self.four_neighbors(zombie[0], zombie[1])
+            neighbors.append(zombie) # Add zombie position to the list of neighbors
+
+            # Get minimal distance to humans
+            min_distance = min(human_distance[dummy_row][dummy_col] for dummy_row, dummy_col in neighbors)
+            min_distances = []
+
+            for cell in neighbors:
+                if human_distance[cell[0]][cell[1]] == min_distance:
+                    min_distances.append(cell)
+            distance_choice = random.choice(min_distances)
+            temp_list.append(distance_choice)
+        self._zombie_list = temp_list
+
 
 # Start up gui for simulation - You will need to write some code above
-# before this will work without errors
+# before this will work without errors 123qweasd
 
 # poc_zombie_gui.run_gui(Zombie(30, 40))
-height = 3
-width = 3
-# obstacle_list = [(4, 15), (5, 15), (6, 15), (7, 15), (8, 15), (9, 15), (10, 15), (11, 15), (12, 15), (13, 15), (14, 15), (15, 10), (15, 11), (15, 12), (15, 13), (15, 14), (15, 15)]
-obstacle_list = []
-grid = Zombie(height, width, obstacle_list)
-grid.add_zombie(1, 1)
-grid.add_human(1, 1)
 
-#
-# print grid
-# print 'zombie_list', grid._zombie_list
-# print 'num_zombies', grid.num_zombies()
-#
-# queue = poc_queue.Queue()
-# for zombie in grid._zombie_list:
-#     queue.enqueue(zombie)
-# print "queue", queue
-#
-# print '4 neighbors', [grid.four_neighbors(zombie[0], zombie[1]) for zombie in grid.zombies()]
-# # print '4 neighbors', grid.compute_distance_field(grid.zombies)
-# print
-# zombies = grid._zombie_list
-entity_list = ZOMBIE
-# print "zombies", zombies
-print "compute_distance_field", grid.compute_distance_field(entity_list)
-#
-
-test.phase1_test(Zombie)
-test.phase2_test(Zombie)
+# test.phase1_test(Zombie)
+# test.phase2_test(Zombie)
 # test.phase3_test(Zombie)
-#
+
